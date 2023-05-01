@@ -20,8 +20,23 @@ if [%3]==[] (set /P packages="What python packages do you want installed (exampl
 echo Packages to install: %packages%
 
 
+:templatesfolder
+if [%4]==[] (set /P templatesfolder="Type 'Y' to create a Templates folder for html files or 'N' to not create a templates folder: ") else (set templatesfolder=%4
+goto indexhtml)
+
+
+if "%templatesfolder%"=="Y" (set templatesfolder=1
+echo A Templates folder will be created)
+if "%templatesfolder%"=="y" (set templatesfolder=1
+echo a Templates folder will be created)
+
+if "%templatesfolder%"=="N" (set templatesfolder=
+echo a Templates folder will not be created)
+if "%templatesfolder%"=="n" (echo a Templates folder will not be created) else (goto templatesfolder)
+
+
 :indexhtml
-if [%4]==[] (set /P indexhtml="Type 'Y' to create index.html or 'N' to not create index.html: ") else (set indexhtml=%4
+if [%5]==[] (set /P indexhtml="Type 'Y' to create index.html or 'N' to not create index.html: ") else (set indexhtml=%5
 goto apppy)
 
 
@@ -36,7 +51,7 @@ if "%indexhtml%"=="n" (echo index.html will not be created) else (goto indexhtml
 
 
 :apppy
-if [%5]==[] (set /P apppy="Type 'Y' to create app.py or 'N' to not create index.html: ") else (set apppy==%5
+if [%6]==[] (set /P apppy="Type 'Y' to create app.py or 'N' to not create index.html: ") else (set apppy==%6
 goto confirm)
 
 
@@ -72,10 +87,10 @@ if "%venv%"=="-v" (python -m venv venv)
 if "%venv%=="-v" (pip install --target=venv\Lib\site-packages\ %packages%) else (pip install %packages%)
 
 If %indexhtml%==1 (if "%venv%"=="-v" (cd \venv\Scripts\
-if templatedir==1 (mkdir Templates)
-if templatedir==1 (cd \Templates\)
-echo <!--index.html-->>index.html) else (if templatedir==1 (mkdir Templates)
-if templatedir==1 (cd Templates)
+if templatesfolder==1 (mkdir Templates)
+if templatesfolder==1 (cd \Templates\)
+echo <!--index.html-->>index.html) else (if templatesfolder==1 (mkdir Templates)
+if templatesfolder==1 (cd Templates)
 echo <!--index.html-->>index.html)
 
 
